@@ -8,11 +8,12 @@ users = User.all %>
 <ol>
 <% for transaction in transactions
     from_user = User.find_by({"id" => [transaction["from_user_id"]]})
-        if from_user.nil
+        if from_user == nil # also did == TRUE
         from_user = "ICO"
         else from_user = from_user["name"]
         end
     to_user = User.find_by({"id" => [transaction["to_user_id"]]})
+        to_user = to_user["name"]
     amount = transaction["amount"]
      %>
     
