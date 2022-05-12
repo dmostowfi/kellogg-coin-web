@@ -8,12 +8,12 @@ users = User.all %>
 <ol>
 <% for transaction in transactions
     from_user = User.find_by({"id" => [transaction["from_user_id"]]})
-        if from_user == nil # also did == TRUE
+        if from_user == nil 
         from_user = "ICO"
         else from_user = from_user["name"]
         end
     to_user = User.find_by({"id" => [transaction["to_user_id"]]})
-        to_user = to_user["name"]
+    to_user = to_user["name"]
     amount = transaction["amount"]
      %>
     
@@ -31,3 +31,58 @@ Balance for Evan: 1164 KC
 Balance for Anthony: 1456 KC
 Balance for Krystina: 3516 KC 
 -->
+
+<% 
+bens_balance = 0
+brians_balance = 0
+evans_balance = 0
+anthonys_balance = 0
+krystinas_balance = 0
+
+for transaction in transactions 
+    from_user = User.find_by({"id" => [transaction["from_user_id"]]})
+        if from_user == nil 
+        from_user = "ICO"
+        else from_user = from_user["name"]
+        end
+    amount = transaction["amount"]
+        if from_user == "ICO" #is there a more elegant way to do this
+            bens_balance = 0
+            brians_balance = 0
+            evans_balance = 0
+            anthonys_balance = 0
+            krystinas_balance = 0
+        elsif from_user == "Ben"
+            bens_balance = bens_balance - amount
+        elsif from_user == "Brian"
+            brians_balance = brians_balance - amount
+        elsif from_user == "Evan"
+            evans_balance = evans_balance - amount
+        elsif from_user == "Anthony"
+            anthonys_balance = anthonys_balance - amount
+        elsif from_user == "Krystina"
+            krystinas_balance = krystinas_balance - amount
+        end
+    to_user = User.find_by({"id" => [transaction["to_user_id"]]})
+    to_user = to_user["name"]
+        if to_user == "Ben"
+            bens_balance = bens_balance + amount
+        elsif to_user == "Brian"
+            brians_balance = brians_balance + amount
+        elsif to_user == "Evan"
+            evans_balance = evans_balance + amount
+        elsif to_user == "Anthony"
+            anthonys_balance = anthonys_balance + amount
+        elsif to_user == "Krystina"
+            krystinas_balance = krystinas_balance + amount
+        end
+end
+    %>
+
+<ul>
+    <li><%="Balance for Ben: #{bens_balance}"%></li>
+    <li><%="Balance for Brian: #{brians_balance}"%></li>
+    <li><%="Balance for Evan: #{evans_balance}"%></li>
+    <li><%="Balance for Anthony: #{anthonys_balance}"%></li>
+    <li><%="Balance for Krystina: #{krystinas_balance}"%></li>
+</ul>
